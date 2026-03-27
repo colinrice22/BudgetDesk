@@ -21,3 +21,5 @@ pnpm-debug.log*
 # misc
 .DS_Store
 .vscode/settings.json
+.vercel
+.env*.local

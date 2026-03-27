@@ -1,4 +1,34 @@
+import React, { useEffect, useRef, useState } from "react";
+
 export default function HomePage() {
+  // PWA install prompt logic
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstall, setShowInstall] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const installBtnRef = useRef(null);
+
+  useEffect(() => {
+    // Detect mobile
+    setIsMobile(/Mobi|Android/i.test(navigator.userAgent));
+
+    // Listen for beforeinstallprompt
+    const handler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstall(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") setShowInstall(false);
+    }
+  };
+
   return (
     <main className="landing">
       <header className="hero">
@@ -23,6 +53,16 @@ export default function HomePage() {
             <a className="btn btn-ghost" href="#why-budgetdesk">
               Why BudgetDesk
             </a>
+            {showInstall && (
+              <button
+                className="btn btn-accent"
+                ref={installBtnRef}
+                onClick={handleInstall}
+                style={{ marginLeft: 8 }}
+              >
+                {isMobile ? "Add to Home Screen" : "Add to Desktop"}
+              </button>
+            )}
           </div>
           <p className="hero-note">No account needed. Your budget stays on your device.</p>
           <p className="hero-note">Security by design: your budget data is stored locally in your browser, not on our servers.</p>
@@ -37,7 +77,9 @@ export default function HomePage() {
         <div className="feature-grid">
           <article className="feature-card">
             <h3>Zero-Based Budgeting</h3>
-            <p>Assign incoming cash to categories so you always know what is left to spend.</p>
+            <p>
+              Every dollar gets a job. With zero-based budgeting, you assign every bit of income to a category—spending, saving, or investing—until nothing is left unallocated. This method gives you total clarity and control, so you always know exactly where your money is going and what’s left to spend. It’s the antidote to vague, stressful budgeting and helps you make calm, confident decisions each month.
+            </p>
           </article>
           <article className="feature-card">
             <h3>Recurring Transactions</h3>
@@ -60,11 +102,18 @@ export default function HomePage() {
           <h2>Built for calm decisions, not financial anxiety</h2>
         </div>
         <ul className="value-list">
-          <li>See how much is truly available before you spend.</li>
-          <li>Keep monthly planning and transaction tracking in one workflow.</li>
-          <li>Recover quickly when priorities shift mid-month.</li>
-          <li>Own your data with export and local-first storage options.</li>
+          <li>Zero-based budgeting means you always know what’s left to spend—no more guessing or overspending.</li>
+          <li>Monthly planning and transaction tracking are unified, so you can adjust quickly when life changes.</li>
+          <li>Recover fast when priorities shift mid-month—move money between categories with a click.</li>
+          <li>Own your data: export anytime, and keep your budget local for maximum privacy.</li>
+          <li>Designed for clarity, not overwhelm—BudgetDesk helps you focus on what matters most.</li>
         </ul>
+        <div style={{ marginTop: 24, textAlign: "center" }}>
+          <strong>Why zero-based budgeting?</strong>
+          <p style={{ maxWidth: 600, margin: "12px auto 0" }}>
+            Most budgets fail because they’re too vague or too rigid. Zero-based budgeting is different: it’s flexible, precise, and puts you in control. By giving every dollar a job, you avoid the trap of “leftover” money disappearing, and you can adapt your plan as life changes. It’s budgeting for real people, not spreadsheets.
+          </p>
+        </div>
       </section>
 
       <section className="section cta">
