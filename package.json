@@ -5,9 +5,9 @@
   "packageManager": "pnpm@10.0.0",
   "scripts": {
     "dev": "node apps/api/src/index.js",
-    "build": "pnpm --filter @budget/web build",
+    "build": "npm --prefix apps/web run build",
     "lint": "echo \"configure lint after dependency install\"",
     "test": "echo \"configure tests after dependency install\"",
-    "typecheck": "pnpm --filter @budget/web typecheck"
+    "typecheck": "npm --prefix apps/web run typecheck"
   }
 }
