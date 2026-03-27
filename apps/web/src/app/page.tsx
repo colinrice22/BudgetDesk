@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function HomePage() {
   // PWA install prompt logic
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstall, setShowInstall] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const installBtnRef = useRef(null);
@@ -14,9 +14,15 @@ export default function HomePage() {
     setIsMobile(/Mobi|Android/i.test(navigator.userAgent));
 
     // Listen for beforeinstallprompt
-    const handler = (e: any) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
+    // Type for beforeinstallprompt event
+    type BeforeInstallPromptEvent = Event & {
+      prompt: () => Promise<void>;
+      userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+    };
+    const handler = (e: Event) => {
+      const promptEvent = e as BeforeInstallPromptEvent;
+      promptEvent.preventDefault();
+      setDeferredPrompt(promptEvent);
       setShowInstall(true);
     };
     window.addEventListener("beforeinstallprompt", handler);
