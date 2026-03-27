@@ -14,7 +14,7 @@ export default function HomePage() {
     setIsMobile(/Mobi|Android/i.test(navigator.userAgent));
 
     // Listen for beforeinstallprompt
-    const handler = (e) => {
+    const handler = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);
       setShowInstall(true);
