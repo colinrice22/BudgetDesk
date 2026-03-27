@@ -1,0 +1,13 @@
+{
+  "name": "budgetapp",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "dev": "node apps/api/src/index.js",
+    "build": "echo \"configure package builds after dependency install\"",
+    "lint": "echo \"configure lint after dependency install\"",
+    "test": "echo \"configure tests after dependency install\"",
+    "typecheck": "echo \"configure typecheck after dependency install\""
+  }
+}

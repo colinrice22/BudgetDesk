@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BudgetDesk - Flow Budgeting</title>
+    <meta name="theme-color" content="#0b1324" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <div class="mesh"></div>
+
+    <div id="app-shell" class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">BudgetDesk</p>
+          <h1>Give Every Dollar a Destination</h1>
+          <p class="subtitle">
+            Assign with intent, track every move, and run your month like a precision instrument.
+          </p>
+        </div>
+        <div class="top-controls">
+          <div class="month-controls">
+            <label for="month-input">Month</label>
+            <input id="month-input" type="month" />
+          </div>
+          <div class="save-actions">
+            <button id="import-save-btn" class="ghost-btn" type="button">Import Save</button>
+            <button id="export-save-btn" class="ghost-btn" type="button">Export Save</button>
+          </div>
+          <button id="refresh-btn" class="ghost-btn" type="button">Refresh</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel summary-panel">
+          <h2>Budget Snapshot</h2>
+          <div class="summary-grid">
+            <article>
+              <p id="income-label">Net Income</p>
+              <h3 id="income-value">$0.00</h3>
+            </article>
+            <article>
+              <p>Assigned</p>
+              <h3 id="assigned-value">$0.00</h3>
+            </article>
+            <article class="tbb">
+              <p>Unassigned Cash</p>
+              <h3 id="tbb-value">$0.00</h3>
+            </article>
+            <article>
+              <p>Overspent</p>
+              <h3 id="overspent-value">$0.00</h3>
+            </article>
+            <article>
+              <p>Scheduled Due</p>
+              <h3 id="scheduled-due-value">0</h3>
+            </article>
+          </div>
+
+          <form id="income-form" class="inline-form">
+            <label for="income-input">Set Monthly Net Income ($)</label>
+            <input id="income-input" type="number" min="0" step="0.01" required />
+            <button type="submit">Save Income</button>
+          </form>
+
+          <div class="split-actions">
+            <form id="quick-assign-form" class="inline-form compact-form">
+              <label for="quick-assign-mode">Auto-Assign Mode</label>
+              <select id="quick-assign-mode">
+                <option value="underfunded">Fill Underfunded</option>
+                <option value="even">Split Evenly</option>
+              </select>
+              <button type="submit">Run Auto-Assign</button>
+            </form>
+            <button id="apply-scheduled-btn" type="button">Apply Scheduled</button>
+          </div>
+        </section>
+
+        <section class="panel categories-panel">
+          <div class="section-title">
+            <h2>Categories</h2>
+            <span id="category-count" class="pill">0</span>
+          </div>
+
+          <form id="new-group-form" class="inline-form compact-form">
+            <input id="group-name-input" type="text" placeholder="New group" required />
+            <input id="group-sort-input" type="number" placeholder="Order" min="1" step="1" />
+            <button type="submit">Add Group</button>
+          </form>
+
+          <form id="new-category-form" class="stack-form">
+            <div class="form-grid">
+              <input id="category-name-input" type="text" placeholder="New category" required />
+              <select id="category-group-input" required></select>
+              <input id="category-assigned-input" type="number" step="0.01" placeholder="Assigned ($, net impact)" required />
+              <input id="category-target-input" type="number" step="0.01" placeholder="Target ($)" value="0" />
+            </div>
+            <textarea id="category-notes-input" rows="2" placeholder="Notes"></textarea>
+            <button type="submit">Add Category</button>
+          </form>
+
+          <form id="reallocate-form" class="stack-form tool-form">
+            <h3>Move Assigned Funds</h3>
+            <div class="form-grid">
+              <select id="reallocate-from" required></select>
+              <select id="reallocate-to" required></select>
+              <input id="reallocate-amount" type="number" step="0.01" min="0.01" placeholder="Amount ($, net impact)" required />
+            </div>
+            <button type="submit">Move Money</button>
+          </form>
+
+          <div id="groups-list" class="group-list"></div>
+        </section>
+
+        <section class="panel transactions-panel">
+          <h2>Transactions</h2>
+          <form id="tx-filter-form" class="inline-form compact-form">
+            <select id="tx-filter-category">
+              <option value="">All categories</option>
+            </select>
+            <input id="tx-search-input" type="search" placeholder="Search note or payee" />
+            <button type="submit">Filter</button>
+          </form>
+
+          <form id="new-transaction-form" class="stack-form">
+            <div class="form-grid">
+              <select id="tx-category-input" required></select>
+              <input id="tx-payee-input" type="text" placeholder="Payee" />
+              <input id="tx-date-input" type="date" required />
+              <select id="tx-cleared-input">
+                <option value="false">Uncleared</option>
+                <option value="true">Cleared</option>
+              </select>
+              <select id="tx-amount-type-input" required>
+                <option value="net">Net amount</option>
+                <option value="gross">Gross amount</option>
+              </select>
+              <input id="tx-amount-input" type="number" step="0.01" required placeholder="Amount ($)" />
+            </div>
+            <input id="tx-note-input" type="text" placeholder="Note" />
+            <button type="submit">Add Transaction</button>
+          </form>
+
+          <div id="transactions-list" class="transactions-list"></div>
+        </section>
+
+        <section class="panel schedule-panel">
+          <h2>Scheduled Transactions</h2>
+          <form id="new-scheduled-form" class="stack-form">
+            <div class="form-grid">
+              <select id="scheduled-category-input" required></select>
+              <input id="scheduled-note-input" type="text" placeholder="Name" required />
+              <select id="scheduled-amount-type-input" required>
+                <option value="net">Net amount</option>
+                <option value="gross">Gross amount</option>
+              </select>
+              <input id="scheduled-amount-input" type="number" step="0.01" placeholder="Amount ($)" required />
+              <input id="scheduled-day-input" type="number" min="1" max="28" step="1" value="1" required />
+            </div>
+            <button type="submit">Add Scheduled</button>
+          </form>
+
+          <div id="scheduled-list" class="scheduled-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <section id="setup-overlay" class="setup-overlay hidden" aria-modal="true" role="dialog">
+      <div class="setup-card">
+        <p class="eyebrow">First-Time Setup</p>
+        <h2>Forge Your Budget</h2>
+        <p class="setup-copy">
+          Answer a few questions so the app can configure your first month and categories.
+        </p>
+
+        <form id="setup-form" class="stack-form">
+          <div class="form-grid">
+            <label>
+              <span class="setup-label-row">
+                <span>Save Name (device-local)</span>
+                <button
+                  id="device-local-info-btn"
+                  class="info-trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="device-local-info-panel"
+                  aria-haspopup="dialog"
+                >
+                  i
+                </button>
+              </span>
+              <input id="setup-save-input" type="text" minlength="3" required placeholder="my-private-budget" />
+            </label>
+            <label>
+              Currency
+              <select id="setup-currency-input">
+                <option value="CAD" selected>CAD</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="AUD">AUD</option>
+                <option value="JPY">JPY</option>
+              </select>
+            </label>
+            <label>
+              Setup Month
+              <input id="setup-month-input" type="month" required />
+            </label>
+            <label>
+              Monthly Net Income
+              <input id="setup-income-input" type="number" step="0.01" min="0" required />
+            </label>
+          </div>
+
+          <div id="device-local-info-panel" class="info-popup hidden" role="dialog" aria-modal="false" aria-labelledby="device-local-info-title">
+            <div class="info-popup-card">
+              <div class="info-popup-head">
+                <p id="device-local-info-title">Device-Local Storage</p>
+                <button id="device-local-info-close" class="info-popup-close" type="button" aria-label="Close device-local information">
+                  Close
+                </button>
+              </div>
+              <p>
+                Your budget stays on your device, in this browser. We do not store your budget, transactions, or
+                categories anywhere else.
+              </p>
+              <p>
+                If someone else can open this browser profile on this device, they may also be able to open your save.
+                For better privacy, use your own device account or browser profile.
+              </p>
+              <p>
+                To use your budget on multiple devices, you would need to move it yourself. Right now, your save does
+                not automatically sync between devices.
+              </p>
+            </div>
+          </div>
+
+          <p class="setup-privacy">
+            Privacy mode is active: all budget data is stored only on this device in your browser storage, with no
+            account and no server-side budget storage.
+          </p>
+
+          <label>
+            Starter Categories (one per line: Name:Amount)
+            <textarea
+              id="setup-categories-input"
+              rows="5"
+              placeholder="Groceries:600\nTransport:200\nEmergency Fund:300"
+            ></textarea>
+          </label>
+
+          <div class="setup-actions">
+            <button id="setup-import-btn" class="ghost-btn" type="button">Import Existing Save</button>
+            <button type="submit">Create Save and Continue</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <input id="import-save-input" class="visually-hidden" type="file" accept="application/json,.json" />
+
+    <p id="toast" class="toast" aria-live="polite"></p>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

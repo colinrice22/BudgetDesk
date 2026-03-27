@@ -1,0 +1,10 @@
+{
+  "name": "@budget/tests",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "test": "echo \"add vitest/playwright setup\"",
+    "lint": "echo \"add eslint config\"",
+    "typecheck": "tsc --noEmit"
+  }
+}

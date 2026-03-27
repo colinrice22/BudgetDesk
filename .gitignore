@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# env
+.env
+.env.*
+!.env.example
+
+# build
+.next/
+dist/
+build/
+coverage/
+.expo/
+
+# logs
+npm-debug.log*
+pnpm-debug.log*
+
+# misc
+.DS_Store
+.vscode/settings.json

@@ -1,0 +1,118 @@
+{
+  "monthConfig": {
+    "2026-03": {
+      "incomeCents": 650000,
+      "incomeType": "net"
+    }
+  },
+  "categories": [
+    {
+      "id": "cat-groceries",
+      "name": "Groceries",
+      "assignedCents": 80000,
+      "groupId": "grp-fixed",
+      "targetCents": 0,
+      "notes": "",
+      "sort": 1,
+      "archived": false
+    },
+    {
+      "id": "cat-rent",
+      "name": "Rent",
+      "assignedCents": 180000,
+      "groupId": "grp-fixed",
+      "targetCents": 0,
+      "notes": "",
+      "sort": 2,
+      "archived": false
+    },
+    {
+      "id": "cat-transport",
+      "name": "Transport",
+      "assignedCents": 25000,
+      "groupId": "grp-fixed",
+      "targetCents": 0,
+      "notes": "",
+      "sort": 3,
+      "archived": false
+    },
+    {
+      "id": "cat-fun",
+      "name": "Fun Money",
+      "assignedCents": 20000,
+      "groupId": "grp-fixed",
+      "targetCents": 0,
+      "notes": "",
+      "sort": 4,
+      "archived": false
+    },
+    {
+      "id": "cat-93a55486-b669-46ce-a42e-664994d8aaf4",
+      "groupId": "grp-fixed",
+      "name": "Streaming",
+      "assignedCents": 1500,
+      "targetCents": 2500,
+      "notes": "Monthly streaming services",
+      "sort": 5,
+      "archived": false
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx-a83a89e3-b795-44da-bc30-0f0b10beef9a",
+      "categoryId": "cat-groceries",
+      "amountCents": -1250,
+      "note": "Coffee beans",
+      "occurredAt": "2026-03-15T12:00:00.000Z",
+      "payee": "",
+      "cleared": false,
+      "amountType": "net"
+    }
+  ],
+  "monthPlans": {
+    "2026-03": {
+      "cat-93a55486-b669-46ce-a42e-664994d8aaf4": 2500,
+      "cat-rent": 175000,
+      "cat-groceries": 85000
+    }
+  },
+  "groups": [
+    {
+      "id": "grp-fixed",
+      "name": "Fixed",
+      "sort": 1
+    },
+    {
+      "id": "grp-living",
+      "name": "Living",
+      "sort": 2
+    },
+    {
+      "id": "grp-lifestyle",
+      "name": "Lifestyle",
+      "sort": 3
+    },
+    {
+      "id": "grp-future",
+      "name": "Future",
+      "sort": 4
+    },
+    {
+      "id": "grp-49335eed-e1f0-4d60-9a1e-f295a1a10a28",
+      "name": "Subscriptions",
+      "sort": 5
+    }
+  ],
+  "scheduledTransactions": [
+    {
+      "id": "sch-56d3cb56-65bb-4e5e-9535-3899822edba9",
+      "categoryId": "cat-rent",
+      "note": "Rent autopay",
+      "amountCents": -180000,
+      "dayOfMonth": 1,
+      "active": true,
+      "lastAppliedMonth": null,
+      "amountType": "net"
+    }
+  ]
+}
